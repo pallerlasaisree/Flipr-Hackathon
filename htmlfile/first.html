@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+<form id="first_form" action="http://localhost:5000/first" method="POST">
+<div class="body">
+<input type="button" value="Contact & Helpline" onclick="window.location.href='http://localhost:5000/contact'" class="button">
+<input type="button" value="Notification & Advisories" onclick="window.location.href='http://localhost:5000/notification'" class="button">
+<input type="button" value="Hospitals & beds" onclick="window.location.href='http://localhost:5000/hospital'" class="button">
+<input type="button" value="Daily status" onclick="window.location.href='http://localhost:5000/status'" class="button">
+</div>
+</form>
+</body>
+</html>
+
+
+<style>
+body{
+background-image: url(https://www.iasplus.com/en-gb/images/responsive/photos/full-bleed/virus/image);
+background-repeat: no-repeat;
+background-size: cover;
+}
+.button {
+display: inline-block;
+border-radius: 4px;
+background-color: #ddd;
+border: none;
+color: #000;
+text-align: center;
+font-size: 28px;
+padding: 20px;
+width: 200px;
+transition: all 0.5s;
+cursor: pointer;
+margin: 5px;
+}
+
+.button span {
+cursor: pointer;
+display: inline-block;
+position: relative;
+transition: 0.5s;
+}
+
+.button span:after {
+content: '\00bb';
+position: absolute;
+opacity: 0;
+top: 0;
+right: -20px;
+transition: 0.5s;
+}
+
+.button:hover span {
+padding-right: 25px;
+}
+
+.button:hover span:after {
+opacity: 1;
+right: 0;
+}
+</style>
+this is app.py
+from flask import Flask, render_template, redirect, url_for
+from flaskext import mysql
+
+app = Flask(__name__, instance_path='C:\\Users\\surip\\PycharmProjects\\flaskProject1\\venv\\Lib\\site-packages')
+app.secret_key = 'secretaryship'
+
+app.config['MYSQL_DATABASE_USER'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_DB'] = 'covid'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+mysql.init_app(app)
+
+
+@app.route('/')
+def hello_world():
+return 'Hello World!'
+
+
+@app.route('/first', methods=["GET", "POST"])
+def first():
+return redirect(url_for('first'))
+
+
+@app.route('/contact', methods=["GET", "POST"])
+def contact():
+return redirect(url_for('contact'))
+
+
+@app.route('/notification', methods=["GET", "POST"])
+def notification():
+return render_template('notification.html')
+
+
+@app.route('/hospital', methods=["GET", "POST"])
+def hospital():
+return render_template('hospital.html')
+
+
+@app.route('/status', methods=["GET","POST"])
+def status():
+return render_template('status.html')
+
+
+if __name__ == '__main__':
+app.run(debug=True)
